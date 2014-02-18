@@ -27,5 +27,8 @@
     <string name="action_effects">Effects</string>
     <string name="action_bookmarks">Bookmarks</string>
     <string name="action_cardapio">Cardapio</string>
+    <string name="codigo_externo">codExt</string>
+    <string name="situacao">Sit.</string>
+    <string name="numero_mesa">0</string>
 
 </resources>

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arquitetaweb.command.R;
@@ -19,7 +20,7 @@ public class LazyAdapter extends BaseAdapter {
     
     private Activity activity;
     private ArrayList<HashMap<String, String>> data;
-    private static LayoutInflater inflater=null;
+    private static LayoutInflater inflater = null;
     public ImageLoader imageLoader; 
     
     public LazyAdapter(Activity a, ArrayList<HashMap<String, String>> d) {
@@ -45,13 +46,13 @@ public class LazyAdapter extends BaseAdapter {
         View vi=convertView;
         if(convertView==null) {
             vi = inflater.inflate(R.layout.list_row, null);
-
+        }
         TextView idItem = (TextView)vi.findViewById(R.id.idItem); // id
         TextView numero_mesa = (TextView)vi.findViewById(R.id.numero_mesa); // numero mesa
         TextView artist = (TextView)vi.findViewById(R.id.codigo_externo); // codigo externo
         TextView situacao = (TextView)vi.findViewById(R.id.situacao); // situacao
-        
-        
+        ImageView situacao_mesa = (ImageView)vi.findViewById(R.id.situacao_mesa); // mesa situacao
+        	        
         HashMap<String, String> itens = new HashMap<String, String>();
         itens = data.get(position);
         
@@ -59,16 +60,20 @@ public class LazyAdapter extends BaseAdapter {
         idItem.setText(itens.get(CardapioFragment.KEY_ID));
         numero_mesa.setText(itens.get(CardapioFragment.KEY_NUMEROMESA));
         artist.setText(itens.get(CardapioFragment.KEY_CODIGOEXTERNO));
-        situacao.setText(itens.get(CardapioFragment.KEY_SITUACAO));
-        
+        situacao.setText(itens.get(CardapioFragment.KEY_SITUACAO));	        
 
         String _situacao = situacao.getText().toString();
-        if (_situacao.equals("2")) {
-        	situacao.setTextColor(Color.parseColor("#bdbdbd"));
-        }
+        if (_situacao.equals("1")) {
+        	situacao.setTextColor(Color.parseColor("#008000"));
+        	situacao_mesa.setImageResource(R.drawable.ic_link_github);
+        } else if (_situacao.equals("2")) {
+        	situacao.setTextColor(Color.parseColor("#FF0000"));
+        	situacao_mesa.setImageResource(R.drawable.ic_link_evernote);
+        } else if (_situacao.equals("3")) {
+        	situacao.setTextColor(Color.parseColor("#000080"));
+        	situacao_mesa.setImageResource(R.drawable.ic_link_linkedin);
+        } 
         
-        
-        }
         return vi;
     }
 }
