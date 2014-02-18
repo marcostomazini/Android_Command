@@ -1,0 +1,31 @@
+<!--
+  Copyright 2012 Steven Rudenko
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<resources>
+
+    <string name="app_name">ArqWeb.Command</string>
+    <string name="link_to_sources">arquitetaweb.com</string>
+    <string name="about_details"><b>Comanda Para Bares/Restaurantes</b>\n\n É um aplicativo para facilitar a vida dos clientes de bares e restaurantes, com o aplicativo voce tem o cardapio do bar/restaurante em suas mãos.\n\nAplicativo de teste em versão beta.</string>
+    <string name="about_play">Ir para o menu</string>
+    <string name="about_tutorial">View tutorial page</string>
+    <!-- Action titles -->
+    <string name="action_settings">Settings</string>
+    <string name="action_init">Inicial</string>
+    <string name="action_sandbox">Sandbox</string>
+    <string name="action_effects">Effects</string>
+    <string name="action_bookmarks">Bookmarks</string>
+    <string name="action_cardapio">Cardapio</string>
+
+</resources>
