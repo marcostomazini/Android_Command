@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.arquitetaweb.command.R;
@@ -44,15 +44,16 @@ public class LazyAdapter extends BaseAdapter {
     
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
-        if(convertView==null) {
+        if (convertView == null) {
             vi = inflater.inflate(R.layout.list_row, null);
         }
         TextView idItem = (TextView)vi.findViewById(R.id.idItem); // id
         TextView numero_mesa = (TextView)vi.findViewById(R.id.numero_mesa); // numero mesa
         TextView artist = (TextView)vi.findViewById(R.id.codigo_externo); // codigo externo
         TextView situacao = (TextView)vi.findViewById(R.id.situacao); // situacao
-        ImageView situacao_mesa = (ImageView)vi.findViewById(R.id.situacao_mesa); // mesa situacao
-        	        
+        //ImageView situacao_mesa = (ImageView)vi.findViewById(R.id.situacao_mesa); // mesa situacao        	        
+        RelativeLayout layout =(RelativeLayout)vi.findViewById(R.id.mesa);
+        
         HashMap<String, String> itens = new HashMap<String, String>();
         itens = data.get(position);
         
@@ -62,16 +63,26 @@ public class LazyAdapter extends BaseAdapter {
         artist.setText(itens.get(CardapioFragment.KEY_CODIGOEXTERNO));
         situacao.setText(itens.get(CardapioFragment.KEY_SITUACAO));	        
 
+        numero_mesa.setTextColor(Color.BLACK);
+        
         String _situacao = situacao.getText().toString();
         if (_situacao.equals("1")) {
+        	layout.setBackgroundColor(Color.GREEN);            
         	situacao.setTextColor(Color.parseColor("#008000"));
-        	situacao_mesa.setImageResource(R.drawable.ic_link_github);
+        	//situacao_mesa.setImageResource(R.drawable.ic_link_github);
         } else if (_situacao.equals("2")) {
+        	layout.setBackgroundColor(Color.RED);
         	situacao.setTextColor(Color.parseColor("#FF0000"));
-        	situacao_mesa.setImageResource(R.drawable.ic_link_evernote);
-        } else if (_situacao.equals("3")) {
+        	numero_mesa.setTextColor(Color.WHITE);
+        	//situacao_mesa.setImageResource(R.drawable.ic_link_evernote);
+        } else if (_situacao.equals("7")) {
+        	layout.setBackgroundColor(Color.YELLOW);
         	situacao.setTextColor(Color.parseColor("#000080"));
-        	situacao_mesa.setImageResource(R.drawable.ic_link_linkedin);
+        	//situacao_mesa.setImageResource(R.drawable.ic_link_stackoverflow);
+        } else  {
+        	layout.setBackgroundColor(Color.CYAN);
+        	situacao.setTextColor(Color.parseColor("#000080"));
+        	//situacao_mesa.setImageResource(R.drawable.ic_link_lastfm);
         } 
         
         return vi;

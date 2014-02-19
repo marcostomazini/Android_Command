@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mesa"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
@@ -18,18 +19,6 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="invisible" />
-
-    <TextView
-        android:id="@+id/numero_mesa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/numero_mesa"
-        android:textColor="#FF0000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:typeface="sans" />
 
     <TextView
         android:id="@+id/codigo_externo"
@@ -53,14 +42,29 @@
         android:text="@string/situacao"
         android:textColor="#191970"
         android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="invisible"  />
+
+    <TextView
+        android:id="@+id/numero_mesa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/codigo_externo"
+        android:layout_centerHorizontal="true"
+        android:text="@string/numero_mesa"
+        android:textColor="#FF0000"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:typeface="sans" />
 
     <ImageView
         android:id="@+id/situacao_mesa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/codigo_externo"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_link_github" />
+        android:layout_alignTop="@+id/numero_mesa"
+        android:layout_marginRight="35dp"
+        android:layout_toLeftOf="@+id/numero_mesa"
+        android:src="@drawable/ic_link_github"
+        android:visibility="invisible" />
 
 </RelativeLayout>

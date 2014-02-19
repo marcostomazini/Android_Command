@@ -36,141 +36,145 @@ import com.arquitetaweb.restaurantes.fragment.WebViewFragment;
 
 public class ExamplesActivity extends FragmentActivity {
 
-  private static final String STATE_URI = "state:uri";
-  private static final String STATE_FRAGMENT_TAG = "state:fragment_tag";
+	private static final String STATE_URI = "state:uri";
+	private static final String STATE_FRAGMENT_TAG = "state:fragment_tag";
 
-  private ActionsContentView viewActionsContentView;
+	private ActionsContentView viewActionsContentView;
 
-  private Uri currentUri = AboutFragment.ABOUT_URI;
-  private String currentContentFragmentTag = null;
+	private Uri currentUri = AboutFragment.ABOUT_URI;
+	private String currentContentFragmentTag = null;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.example);
+		setContentView(R.layout.example);
 
-    viewActionsContentView = (ActionsContentView) findViewById(R.id.actionsContentView);
-    viewActionsContentView.setSwipingType(ActionsContentView.SWIPING_ALL);
+		viewActionsContentView = (ActionsContentView) findViewById(R.id.actionsContentView);
+		viewActionsContentView.setSwipingType(ActionsContentView.SWIPING_ALL);
 
-    final ListView viewActionsList = (ListView) findViewById(R.id.actions);
-    final ActionsAdapter actionsAdapter = new ActionsAdapter(this);
-    viewActionsList.setAdapter(actionsAdapter);
-    viewActionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> adapter, View v, int position,
-          long flags) {
-        final Uri uri = actionsAdapter.getItem(position);
-    
-        updateContent(uri);
-        viewActionsContentView.showContent();
-      }
-    });
+		final ListView viewActionsList = (ListView) findViewById(R.id.actions);
+		final ActionsAdapter actionsAdapter = new ActionsAdapter(this);
+		viewActionsList.setAdapter(actionsAdapter);
+		viewActionsList
+				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> adapter, View v,
+							int position, long flags) {
+						final Uri uri = actionsAdapter.getItem(position);
 
-    if (savedInstanceState != null) {
-      currentUri = Uri.parse(savedInstanceState.getString(STATE_URI));
-      currentContentFragmentTag = savedInstanceState.getString(STATE_FRAGMENT_TAG);
-    }
+						updateContent(uri);
+						viewActionsContentView.showContent();
+					}
+				});
 
-    updateContent(currentUri);
-  }
-  
-  @Override
-  public void onBackPressed() {
-    final Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(currentContentFragmentTag);
-    if (currentFragment instanceof WebViewFragment) {
-      final WebViewFragment webFragment = (WebViewFragment) currentFragment;
-      if (webFragment.onBackPressed())
-        return;
-    }
+		if (savedInstanceState != null) {
+			currentUri = Uri.parse(savedInstanceState.getString(STATE_URI));
+			currentContentFragmentTag = savedInstanceState
+					.getString(STATE_FRAGMENT_TAG);
+		}
 
-    super.onBackPressed();
-  }
+		updateContent(currentUri);
+	}
 
-  public void onActionsButtonClick(View view) {
-    if (viewActionsContentView.isActionsShown())
-      viewActionsContentView.showContent();
-    else
-      viewActionsContentView.showActions();
-  }
+	@Override
+	public void onBackPressed() {
+		final Fragment currentFragment = getSupportFragmentManager()
+				.findFragmentByTag(currentContentFragmentTag);
+		if (currentFragment instanceof WebViewFragment) {
+			final WebViewFragment webFragment = (WebViewFragment) currentFragment;
+			if (webFragment.onBackPressed())
+				return;
+		}
 
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    outState.putString(STATE_URI, currentUri.toString());
-    outState.putString(STATE_FRAGMENT_TAG, currentContentFragmentTag);
+		super.onBackPressed();
+	}
 
-    super.onSaveInstanceState(outState);
-  }
+	public void onActionsButtonClick(View view) {
+		if (viewActionsContentView.isActionsShown())
+			viewActionsContentView.showContent();
+		else
+			viewActionsContentView.showActions();
+	}
 
-  public void onSourceCodeClick(View view) {
-    final Intent i = new Intent(Intent.ACTION_VIEW);
-    i.setData(Uri.parse(getString(R.string.sources_link)));
-    startActivity(i);
-  }
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putString(STATE_URI, currentUri.toString());
+		outState.putString(STATE_FRAGMENT_TAG, currentContentFragmentTag);
 
-  public void updateContent(Uri uri) {
-    final Fragment fragment;
-    final String tag;
+		super.onSaveInstanceState(outState);
+	}
 
-    final FragmentManager fm = getSupportFragmentManager();
-    final FragmentTransaction tr = fm.beginTransaction();
+	public void onSourceCodeClick(View view) {
+		final Intent i = new Intent(Intent.ACTION_VIEW);
+		i.setData(Uri.parse(getString(R.string.sources_link)));
+		startActivity(i);
+	}
 
-    if (!currentUri.equals(uri)) {
-      final Fragment currentFragment = fm.findFragmentByTag(currentContentFragmentTag);
-      if (currentFragment != null)
-        tr.hide(currentFragment);
-    }
-    
-    if (AboutFragment.ABOUT_URI.equals(uri)) {
-      tag = AboutFragment.TAG;
-      final Fragment foundFragment = fm.findFragmentByTag(tag);
-      if (foundFragment != null) {
-        fragment = foundFragment;
-      } else {
-        fragment = new AboutFragment();
-      }
-    } else if (CardapioFragment.CARDAPIO_URI.equals(uri)) {
-    	 tag = CardapioFragment.TAG;
-         final Fragment foundFragment = fm.findFragmentByTag(tag);
-         if (foundFragment != null) {
-           fragment = foundFragment;
-         } else {
-           fragment = new CardapioFragment();
-         }   
-      } else if (SandboxFragment.SETTINGS_URI.equals(uri)) {
-      tag = SandboxFragment.TAG;
-      final SandboxFragment foundFragment = (SandboxFragment) fm.findFragmentByTag(tag);
-      if (foundFragment != null) {
-        fragment = foundFragment;
-      } else {
-        final SandboxFragment settingsFragment = new SandboxFragment();
-        fragment = settingsFragment;
-      }
-    } else if (uri != null) {
-      tag = WebViewFragment.TAG;
-      final WebViewFragment webViewFragment;
-      final Fragment foundFragment = fm.findFragmentByTag(tag);
-      if (foundFragment != null) {
-        fragment = foundFragment;
-        webViewFragment = (WebViewFragment) fragment;
-      } else {
-        webViewFragment = new WebViewFragment();
-        fragment = webViewFragment;
-      }
-      webViewFragment.setUrl(uri.toString());
-    } else {
-      return;
-    }
+	public void updateContent(Uri uri) {
+		final Fragment fragment;
+		final String tag;
 
-    if (fragment.isAdded()) {
-      tr.show(fragment);
-    } else {
-      tr.replace(R.id.content, fragment, tag);
-    }
-    tr.commit();
+		final FragmentManager fm = getSupportFragmentManager();
+		final FragmentTransaction tr = fm.beginTransaction();
 
-    currentUri = uri;
-    currentContentFragmentTag = tag;
-  }
+		if (!currentUri.equals(uri)) {
+			final Fragment currentFragment = fm
+					.findFragmentByTag(currentContentFragmentTag);
+			if (currentFragment != null)
+				tr.hide(currentFragment);
+		}
 
+		if (AboutFragment.ABOUT_URI.equals(uri)) {
+			tag = AboutFragment.TAG;
+			final Fragment foundFragment = fm.findFragmentByTag(tag);
+			if (foundFragment != null) {
+				fragment = foundFragment;
+			} else {
+				fragment = new AboutFragment();
+			}
+		} else if (CardapioFragment.CARDAPIO_URI.equals(uri)) {
+			tag = CardapioFragment.TAG;
+			final Fragment foundFragment = fm.findFragmentByTag(tag);
+			if (foundFragment != null) {
+				fragment = foundFragment;
+			} else {
+				fragment = new CardapioFragment();
+			}
+		} else if (SandboxFragment.SETTINGS_URI.equals(uri)) {
+			tag = SandboxFragment.TAG;
+			final SandboxFragment foundFragment = (SandboxFragment) fm
+					.findFragmentByTag(tag);
+			if (foundFragment != null) {
+				fragment = foundFragment;
+			} else {
+				final SandboxFragment settingsFragment = new SandboxFragment();
+				fragment = settingsFragment;
+			}
+		} else if (uri != null) {
+			tag = WebViewFragment.TAG;
+			final WebViewFragment webViewFragment;
+			final Fragment foundFragment = fm.findFragmentByTag(tag);
+			if (foundFragment != null) {
+				fragment = foundFragment;
+				webViewFragment = (WebViewFragment) fragment;
+			} else {
+				webViewFragment = new WebViewFragment();
+				fragment = webViewFragment;
+			}
+			webViewFragment.setUrl(uri.toString());
+		} else {
+			return;
+		}
+
+		if (fragment.isAdded()) {
+			tr.show(fragment);
+		} else {
+			tr.replace(R.id.content, fragment, tag);
+		}
+		tr.commit();
+
+		currentUri = uri;
+		currentContentFragmentTag = tag;
+	}	
 }

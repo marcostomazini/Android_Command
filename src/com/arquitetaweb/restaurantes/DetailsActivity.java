@@ -1,5 +1,7 @@
 package com.arquitetaweb.restaurantes;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,7 +15,9 @@ import android.widget.Toast;
 
 import com.arquitetaweb.command.R;
 import com.arquitetaweb.restaurantes.adapter.DetailsAdapter;
+import com.arquitetaweb.restaurantes.fragment.CardapioFragment;
 import com.arquitetaweb.util.JSONParser;
+import com.arquitetaweb.util.LazyAdapter;
 
 public class DetailsActivity extends FragmentActivity {
 
@@ -35,13 +39,9 @@ public class DetailsActivity extends FragmentActivity {
 		setContentView(R.layout.details);
 
 		final String idString = getIntent().getExtras().get("id").toString();
-		//String descricao = getIntent().getExtras().get("description").toString();
 
 		final TextView id = (TextView) findViewById(R.id.teste);
 		id.setText(idString);
-
-		//final TextView description = (TextView) findViewById(R.id.description);
-		//description.setText(descricao);
 		
 		final Button btnLivre = (Button) findViewById(R.id.btnLivre);
 		btnLivre.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +80,9 @@ public class DetailsActivity extends FragmentActivity {
 			// TODO Auto-generated method stub
 			final JSONParser jParser = new JSONParser();
 			jParser.atualizaMesa(params[0], params[1]);
-
+					
+		    setResult(Activity.RESULT_OK);		        
+		    finish();		    
 			return null;
 		}
 	}
@@ -97,7 +99,6 @@ public class DetailsActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem menuItem) {
 		onBackPressed();
 		return true;
-	}
-
-	//
+	}	
+		
 }
