@@ -30,5 +30,10 @@
     <string name="codigo_externo">codExt</string>
     <string name="situacao">Sit.</string>
     <string name="numero_mesa">0</string>
+    <string name="devideId">Device ID</string>
+    <string name="hintDeviceId">Device ID</string>
+    <string name="edtUrlServico">Url Serviço : Porta Serviço</string>
+    <string name="txtUrlServico">192.168.10.101</string>
+    <string name="txtPortaServico">81</string>
 
 </resources>

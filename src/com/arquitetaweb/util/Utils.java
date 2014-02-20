@@ -3,15 +3,19 @@ package com.arquitetaweb.util;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+
+import com.arquitetaweb.command.R;
 
 public class Utils {
-	
-	private static String url = "";
 	
 	private static final String TAG = "Teste";
 
@@ -40,7 +44,7 @@ public class Utils {
         catch(Exception ex){}
     }
     
-    public static String isAndroidEmulator() {
+    public static String isAndroidEmulator(Activity activity) {
         String model = Build.MODEL;
         Log.d(TAG, "model=" + model);
         String product = Build.PRODUCT;
@@ -49,12 +53,24 @@ public class Utils {
         if (product != null) {
             isEmulator = product.equals("sdk") || product.contains("_sdk") || product.contains("sdk_");            
         }
-        if (isEmulator) {
-        	url = "http://10.0.2.2:81";       
-        } else {
-        	url = "http://192.168.10.101:81";
+        if (!isEmulator) {        	
+        	LayoutInflater inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        	View vi = inflater.inflate(R.layout.sandbox, null);
+        	
+        	EditText urlServico = (EditText)vi.findViewById(R.id.edtUrlServico);
+        	EditText portaServico = (EditText)vi.findViewById(R.id.edtPortaServico);
+        	        	        
+        	return MontarUrl(urlServico, portaServico);
         }
-        Log.d(TAG, "isEmulator=" + isEmulator);
-        return url;
+        return "http://10.0.2.2:81";
     }
+
+	private static String MontarUrl(EditText urlServico, EditText portaServico) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("http://");
+		sb.append(urlServico.getText());
+		sb.append(":");
+		sb.append(portaServico.getText());
+		return sb.toString();
+	}
 }

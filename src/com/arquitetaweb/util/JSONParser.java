@@ -16,6 +16,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.app.Activity;
 import android.util.Log;
 
 public class JSONParser {
@@ -27,9 +28,9 @@ public class JSONParser {
     public JSONParser() {
     }
 
-    public void atualizaMesa(String codigo, String mesa) {
+    public void atualizaMesa(String codigo, String mesa, Activity activity) {
 		HttpClient client = new DefaultHttpClient();
-		HttpPut put = new HttpPut(Utils.isAndroidEmulator() + "/Api/AtualizarMesa?id="+mesa+"&situacao=" + codigo);
+		HttpPut put = new HttpPut(Utils.isAndroidEmulator(activity) + "/Api/AtualizarMesa?id="+mesa+"&situacao=" + codigo);
 
 		try {
 			HttpResponse response = client.execute(put);

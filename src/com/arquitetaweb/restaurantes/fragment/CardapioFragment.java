@@ -112,7 +112,7 @@ public class CardapioFragment extends Fragment {
 		Thread thread = new Thread() {
 			public void run() {
 				if (Utils.isConnected(contexto)) {
-					String url = Utils.isAndroidEmulator()+"/Api/SituacaoMesas";
+					String url = Utils.isAndroidEmulator(contexto)+"/Api/SituacaoMesas";
 					json = jParser.getJSONFromUrl(url);					
 				} else {				
 					json = getData();	

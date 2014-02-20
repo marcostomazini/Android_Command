@@ -1,7 +1,7 @@
 package com.arquitetaweb.restaurantes;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,9 +15,7 @@ import android.widget.Toast;
 
 import com.arquitetaweb.command.R;
 import com.arquitetaweb.restaurantes.adapter.DetailsAdapter;
-import com.arquitetaweb.restaurantes.fragment.CardapioFragment;
 import com.arquitetaweb.util.JSONParser;
-import com.arquitetaweb.util.LazyAdapter;
 
 public class DetailsActivity extends FragmentActivity {
 
@@ -49,7 +47,7 @@ public class DetailsActivity extends FragmentActivity {
 				Toast.makeText(getApplicationContext(), "Livre",
 						Toast.LENGTH_SHORT).show();
 
-				new Connection().execute("1", idString);
+				new AtualizarMesa(v.getContext()).execute("1", idString);
 			}
 		});
 
@@ -59,7 +57,7 @@ public class DetailsActivity extends FragmentActivity {
 				Toast.makeText(getApplicationContext(), "Ocupada",
 						Toast.LENGTH_SHORT).show();
 				
-				new Connection().execute("2" , idString);
+				new AtualizarMesa(v.getContext()).execute("2" , idString);
 			}
 		});
 
@@ -68,24 +66,32 @@ public class DetailsActivity extends FragmentActivity {
 			public void onClick(View v) {
 				Toast.makeText(getApplicationContext(), "Ociosa",
 						Toast.LENGTH_SHORT).show();
-				new Connection().execute("7", idString);
+				new AtualizarMesa(v.getContext()).execute("7", idString);
 			}
 		});
 
 	}
 
-	private class Connection extends AsyncTask<String, Void, Void> {
-		@Override
-		protected Void doInBackground(String... params) {
-			// TODO Auto-generated method stub
-			final JSONParser jParser = new JSONParser();
-			jParser.atualizaMesa(params[0], params[1]);
-					
-		    setResult(Activity.RESULT_OK);		        
-		    finish();		    
-			return null;
+	
+		private class AtualizarMesa extends AsyncTask<String, Void, Void> {
+			private Context myCtx;
+			@Override
+			protected Void doInBackground(String... params) {
+				// TODO Auto-generated method stub
+				final JSONParser jParser = new JSONParser();
+				jParser.atualizaMesa(params[0], params[1], (Activity)myCtx);
+						
+			    setResult(Activity.RESULT_OK);		        
+			    finish();		    
+				return null;
+			}
+			
+			public AtualizarMesa(Context ctx){
+		        // Now set context
+		        this.myCtx = ctx;
+		    }
 		}
-	}
+	
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
