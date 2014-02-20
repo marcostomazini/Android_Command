@@ -1,4 +1,4 @@
-package com.arquitetaweb.util;
+package com.arquitetaweb.restaurantes.adapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,15 +15,16 @@ import android.widget.TextView;
 
 import com.arquitetaweb.command.R;
 import com.arquitetaweb.restaurantes.fragment.CardapioFragment;
+import com.arquitetaweb.util.ImageLoader;
 
-public class LazyAdapter extends BaseAdapter {
+public class MesaAdapter extends BaseAdapter {
     
     private Activity activity;
     private ArrayList<HashMap<String, String>> data;
     private static LayoutInflater inflater = null;
     public ImageLoader imageLoader; 
     
-    public LazyAdapter(Activity a, ArrayList<HashMap<String, String>> d) {
+    public MesaAdapter(Activity a, ArrayList<HashMap<String, String>> d) {
         activity = a;
         data=d;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

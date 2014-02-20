@@ -31,7 +31,7 @@ import com.arquitetaweb.command.R;
 import com.arquitetaweb.restaurantes.adapter.ActionsAdapter;
 import com.arquitetaweb.restaurantes.fragment.AboutFragment;
 import com.arquitetaweb.restaurantes.fragment.CardapioFragment;
-import com.arquitetaweb.restaurantes.fragment.SandboxFragment;
+import com.arquitetaweb.restaurantes.fragment.ConfigurationsFragment;
 import com.arquitetaweb.restaurantes.fragment.WebViewFragment;
 
 public class ExamplesActivity extends FragmentActivity {
@@ -141,14 +141,14 @@ public class ExamplesActivity extends FragmentActivity {
 			} else {
 				fragment = new CardapioFragment();
 			}
-		} else if (SandboxFragment.SETTINGS_URI.equals(uri)) {
-			tag = SandboxFragment.TAG;
-			final SandboxFragment foundFragment = (SandboxFragment) fm
+		} else if (ConfigurationsFragment.SETTINGS_URI.equals(uri)) {
+			tag = ConfigurationsFragment.TAG;
+			final ConfigurationsFragment foundFragment = (ConfigurationsFragment) fm
 					.findFragmentByTag(tag);
 			if (foundFragment != null) {
 				fragment = foundFragment;
 			} else {
-				final SandboxFragment settingsFragment = new SandboxFragment();
+				final ConfigurationsFragment settingsFragment = new ConfigurationsFragment();
 				fragment = settingsFragment;
 			}
 		} else if (uri != null) {

@@ -43,8 +43,8 @@ import android.widget.TextView;
 
 import com.arquitetaweb.command.R;
 import com.arquitetaweb.restaurantes.DetailsActivity;
+import com.arquitetaweb.restaurantes.adapter.MesaAdapter;
 import com.arquitetaweb.util.JSONParser;
-import com.arquitetaweb.util.LazyAdapter;
 import com.arquitetaweb.util.Utils;
 
 public class CardapioFragment extends Fragment {
@@ -59,7 +59,7 @@ public class CardapioFragment extends Fragment {
 	public static final String KEY_SITUACAO = "Situacao";	
 
 	GridView mesas;
-	public static LazyAdapter adapter;
+	public static MesaAdapter adapter;
 
 	Handler handler;
 	ProgressDialog progressDialog;
@@ -140,7 +140,7 @@ public class CardapioFragment extends Fragment {
 						}
 
 						mesas = (GridView) view.findViewById(R.id.list);
-						adapter = new LazyAdapter(contexto, mesasLista);						
+						adapter = new MesaAdapter(contexto, mesasLista);						
 						mesas.setAdapter(adapter);						
 
 						// Click event for single list row
