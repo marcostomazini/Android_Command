@@ -30,7 +30,7 @@ public class JSONParser {
 
     public void atualizaMesa(String codigo, String mesa, Activity activity) {
 		HttpClient client = new DefaultHttpClient();
-		HttpPut put = new HttpPut(Utils.isAndroidEmulator(activity) + "/Api/AtualizarMesa?id="+mesa+"&situacao=" + codigo);
+		HttpPut put = new HttpPut(Utils.getUrlServico(activity) + "/Api/AtualizarMesa?id="+mesa+"&situacao=" + codigo);
 
 		try {
 			HttpResponse response = client.execute(put);

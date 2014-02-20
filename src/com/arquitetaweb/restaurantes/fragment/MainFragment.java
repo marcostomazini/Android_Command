@@ -24,10 +24,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arquitetaweb.command.R;
-import com.arquitetaweb.restaurantes.ExamplesActivity;
+import com.arquitetaweb.restaurantes.MainActivity;
 
-public class AboutFragment extends Fragment {
-  public static final String TAG = AboutFragment.class.getSimpleName();
+public class MainFragment extends Fragment {
+  public static final String TAG = MainFragment.class.getSimpleName();
 
   private static final String ABOUT_SCHEME = "settings";
   private static final String ABOUT_AUTHORITY = "about";
@@ -46,8 +46,8 @@ public class AboutFragment extends Fragment {
       @Override
       public void onClick(View v) {
         final Activity a = getActivity();
-        if (a instanceof ExamplesActivity) {
-          final ExamplesActivity examplesActivity = (ExamplesActivity) a;
+        if (a instanceof MainActivity) {
+          final MainActivity examplesActivity = (MainActivity) a;
           examplesActivity.updateContent(CardapioFragment.CARDAPIO_URI);
         }
       }

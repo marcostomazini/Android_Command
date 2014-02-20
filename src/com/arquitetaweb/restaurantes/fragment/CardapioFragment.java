@@ -25,14 +25,11 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +40,9 @@ import android.widget.TextView;
 
 import com.arquitetaweb.command.R;
 import com.arquitetaweb.restaurantes.DetailsActivity;
+import com.arquitetaweb.restaurantes.MainActivity;
 import com.arquitetaweb.restaurantes.adapter.MesaAdapter;
+import com.arquitetaweb.util.Alerta;
 import com.arquitetaweb.util.JSONParser;
 import com.arquitetaweb.util.Utils;
 
@@ -81,26 +80,9 @@ public class CardapioFragment extends Fragment {
 		carregarDadosJson(view);
 
 		return view;
-	}
+	}	
 
-	private JSONArray getData() {
-		SharedPreferences s = PreferenceManager
-				.getDefaultSharedPreferences(contexto);
-		String jsonString = s.getString("mesasJson", null);
-
-		try {
-			StringBuilder builder = new StringBuilder();        	
-			builder.append(jsonString);
-			json = new JSONArray( builder.toString());
-		} catch (JSONException e) {
-			Log.e("JSON Parser", "Error parsing data " + e.toString());
-		}
-
-		return json;
-	}
-
-	private void carregarDadosJson(final View view) {
-		final JSONParser jParser = new JSONParser();
+	private void carregarDadosJson(final View view) {		
 
 		handler = new Handler();
 
@@ -112,60 +94,73 @@ public class CardapioFragment extends Fragment {
 		Thread thread = new Thread() {
 			public void run() {
 				if (Utils.isConnected(contexto)) {
-					String url = Utils.isAndroidEmulator(contexto)+"/Api/SituacaoMesas";
-					json = jParser.getJSONFromUrl(url);					
-				} else {				
-					json = getData();	
-				}
-
-				handler.post(new Runnable() {
-					@Override
-					public void run() {
-						ArrayList<HashMap<String, String>> mesasLista = new ArrayList<HashMap<String, String>>();
-						for (int i = 0; i < json.length(); i++) {
-							try {
-								JSONObject c = json.getJSONObject(i);
-
-								HashMap<String, String> map = new HashMap<String, String>();
-
-								map.put(KEY_ID, c.getString(KEY_ID));
-								map.put(KEY_NUMEROMESA, c.getString(KEY_NUMEROMESA));
-								map.put(KEY_CODIGOEXTERNO, c.getString(KEY_CODIGOEXTERNO));
-								map.put(KEY_SITUACAO, c.getString(KEY_SITUACAO));
-
-								mesasLista.add(map);
-							} catch (JSONException e) {
-								e.printStackTrace();
+					String url = Utils.getUrlServico(contexto)+"/Api/SituacaoMesas";
+					JSONParser jParser = new JSONParser();
+					json = jParser.getJSONFromUrl(url);	
+					
+					contexto.runOnUiThread(new Runnable() {
+						public void run() {
+							ArrayList<HashMap<String, String>> mesasLista = new ArrayList<HashMap<String, String>>();
+							for (int i = 0; i < json.length(); i++) {
+								try {
+									JSONObject c = json.getJSONObject(i);
+	
+									HashMap<String, String> map = new HashMap<String, String>();
+	
+									map.put(KEY_ID, c.getString(KEY_ID));
+									map.put(KEY_NUMEROMESA, c.getString(KEY_NUMEROMESA));
+									map.put(KEY_CODIGOEXTERNO, c.getString(KEY_CODIGOEXTERNO));
+									map.put(KEY_SITUACAO, c.getString(KEY_SITUACAO));
+	
+									mesasLista.add(map);
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
 							}
+	
+							mesas = (GridView) view.findViewById(R.id.list);
+							adapter = new MesaAdapter(contexto, mesasLista);						
+							mesas.setAdapter(adapter);						
+	
+							// Click event for single list row
+							mesas.setOnItemClickListener(new OnItemClickListener() {
+								@Override
+								public void onItemClick(AdapterView<?> parent,
+										View view, int position, long id) {
+																	
+									TextView idItem =(TextView) view.findViewById(R.id.idItem);
+									
+									Bundle bun = new Bundle();								
+									bun.putString("id", (String)idItem.getText());
+									
+									abrirDetalhes(view, bun);							
+								}
+	
+								private void abrirDetalhes(View view, Bundle bun) {
+									Intent intent = new Intent(view.getContext(), DetailsActivity.class);								
+									intent.putExtras(bun);
+									startActivityForResult(intent, 100);
+								}												
+							});
+							progressDialog.dismiss();
 						}
-
-						mesas = (GridView) view.findViewById(R.id.list);
-						adapter = new MesaAdapter(contexto, mesasLista);						
-						mesas.setAdapter(adapter);						
-
-						// Click event for single list row
-						mesas.setOnItemClickListener(new OnItemClickListener() {
-							@Override
-							public void onItemClick(AdapterView<?> parent,
-									View view, int position, long id) {
-																
-								TextView idItem =(TextView) view.findViewById(R.id.idItem);
-								
-								Bundle bun = new Bundle();								
-								bun.putString("id", (String)idItem.getText());
-								
-								abrirDetalhes(view, bun);							
-							}
-
-							private void abrirDetalhes(View view, Bundle bun) {
-								Intent intent = new Intent(view.getContext(), DetailsActivity.class);								
-								intent.putExtras(bun);
-								startActivityForResult(intent, 100);
-							}												
-						});
-						progressDialog.dismiss();
-					}
-				});
+					});	
+					
+				} else {				
+					contexto.runOnUiThread(new Runnable() {
+	                    public void run() {
+	                    	progressDialog.dismiss();	                    	
+	                    	new Alerta(contexto, "",  "Não Foi Localizado o Servidor!" +
+	                    			"\nCausas:" +
+	                    			"\nConexão OK?" +
+	                    			"\nServidor correto?");	                    	
+//	                    	Toast.makeText(contexto, "Não Foi Localizado o Servidor!",
+//	    							Toast.LENGTH_LONG).show();	                    	
+	                    	//Intent intent = new Intent("settings://sandbox");
+							//startActivity(intent);
+	                    }
+	                });																		
+				}
 			}
 		};
 		thread.start();

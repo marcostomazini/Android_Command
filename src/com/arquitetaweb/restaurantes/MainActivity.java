@@ -29,19 +29,19 @@ import android.widget.ListView;
 
 import com.arquitetaweb.command.R;
 import com.arquitetaweb.restaurantes.adapter.ActionsAdapter;
-import com.arquitetaweb.restaurantes.fragment.AboutFragment;
+import com.arquitetaweb.restaurantes.fragment.MainFragment;
 import com.arquitetaweb.restaurantes.fragment.CardapioFragment;
 import com.arquitetaweb.restaurantes.fragment.ConfigurationsFragment;
 import com.arquitetaweb.restaurantes.fragment.WebViewFragment;
 
-public class ExamplesActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity {
 
 	private static final String STATE_URI = "state:uri";
 	private static final String STATE_FRAGMENT_TAG = "state:fragment_tag";
 
 	private ActionsContentView viewActionsContentView;
 
-	private Uri currentUri = AboutFragment.ABOUT_URI;
+	private Uri currentUri = MainFragment.ABOUT_URI;
 	private String currentContentFragmentTag = null;
 
 	@Override
@@ -125,13 +125,13 @@ public class ExamplesActivity extends FragmentActivity {
 				tr.hide(currentFragment);
 		}
 
-		if (AboutFragment.ABOUT_URI.equals(uri)) {
-			tag = AboutFragment.TAG;
+		if (MainFragment.ABOUT_URI.equals(uri)) {
+			tag = MainFragment.TAG;
 			final Fragment foundFragment = fm.findFragmentByTag(tag);
 			if (foundFragment != null) {
 				fragment = foundFragment;
 			} else {
-				fragment = new AboutFragment();
+				fragment = new MainFragment();
 			}
 		} else if (CardapioFragment.CARDAPIO_URI.equals(uri)) {
 			tag = CardapioFragment.TAG;
