@@ -35,5 +35,9 @@
     <string name="edtUrlServico">Url Serviço : Porta Serviço</string>
     <string name="txtUrlServico">192.168.10.101</string>
     <string name="txtPortaServico">81</string>
+    <string name="btnSalvar">Salvar</string>
+    <string name="msgSalvoSucesso">Salvo com sucesso.</string>
+    <string name="msgSucesso">Sucesso.</string>
+    <string name="msgErro">Erro.</string>
 
 </resources>

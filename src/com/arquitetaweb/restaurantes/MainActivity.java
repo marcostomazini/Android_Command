@@ -29,9 +29,9 @@ import android.widget.ListView;
 
 import com.arquitetaweb.command.R;
 import com.arquitetaweb.restaurantes.adapter.ActionsAdapter;
-import com.arquitetaweb.restaurantes.fragment.MainFragment;
 import com.arquitetaweb.restaurantes.fragment.CardapioFragment;
 import com.arquitetaweb.restaurantes.fragment.ConfigurationsFragment;
+import com.arquitetaweb.restaurantes.fragment.MainFragment;
 import com.arquitetaweb.restaurantes.fragment.WebViewFragment;
 
 public class MainActivity extends FragmentActivity {
@@ -149,6 +149,8 @@ public class MainActivity extends FragmentActivity {
 				fragment = foundFragment;
 			} else {
 				final ConfigurationsFragment settingsFragment = new ConfigurationsFragment();
+				// botao aki
+
 				fragment = settingsFragment;
 			}
 		} else if (uri != null) {
@@ -176,5 +178,5 @@ public class MainActivity extends FragmentActivity {
 
 		currentUri = uri;
 		currentContentFragmentTag = tag;
-	}	
+	}
 }

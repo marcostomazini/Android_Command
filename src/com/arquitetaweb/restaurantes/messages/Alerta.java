@@ -1,4 +1,4 @@
-package com.arquitetaweb.util;
+package com.arquitetaweb.restaurantes.messages;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;

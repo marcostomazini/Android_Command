@@ -40,9 +40,8 @@ import android.widget.TextView;
 
 import com.arquitetaweb.command.R;
 import com.arquitetaweb.restaurantes.DetailsActivity;
-import com.arquitetaweb.restaurantes.MainActivity;
 import com.arquitetaweb.restaurantes.adapter.MesaAdapter;
-import com.arquitetaweb.util.Alerta;
+import com.arquitetaweb.restaurantes.messages.Alerta;
 import com.arquitetaweb.util.JSONParser;
 import com.arquitetaweb.util.Utils;
 
